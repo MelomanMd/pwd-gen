@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 pdw-gen / pwd-gen: Cryptographically secure password generator CLI tool with rich aesthetics.
-Developed for Linux and Windows systems.
+Developed for Linux, macOS, and Windows systems.
 """
 
 import argparse
@@ -48,9 +48,17 @@ def get_strength_rating(entropy):
 
 def copy_to_clipboard(text):
     """
-    Copy generated text to the clipboard using system utilities (clip for Windows, wl-copy/xclip/xsel for Linux).
+    Copy generated text to the clipboard using system utilities (pbcopy for macOS, clip for Windows, wl-copy/xclip/xsel for Linux).
     Returns True if successful, False otherwise.
     """
+    # Try macOS pbcopy
+    if sys.platform == "darwin":
+        try:
+            subprocess.run(["pbcopy"], input=text.encode("utf-8"), check=True)
+            return True
+        except Exception:
+            pass
+
     # Try Windows clip
     if sys.platform == "win32":
         try:
@@ -176,7 +184,7 @@ def generate_memorable_password(word_count, separator, wordlist):
 
 def main():
     parser = argparse.ArgumentParser(
-        description=f"{CLR_HEADER}🚀 pdw-gen / pwd-gen: Высокозащищенный генератор паролей для Linux и Windows{CLR_RESET}",
+        description=f"{CLR_HEADER}🚀 pdw-gen / pwd-gen: Высокозащищенный генератор паролей для Linux, macOS и Windows{CLR_RESET}",
         formatter_class=argparse.RawTextHelpFormatter
     )
 

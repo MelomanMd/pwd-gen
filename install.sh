@@ -14,9 +14,9 @@ CLR_RED="\033[1;31m"
 CLR_RESET="\033[0m"
 CLR_BOLD="\033[1m"
 
-echo -e "${CLR_CYAN}====================================================${CLR_RESET}"
-echo -e "${CLR_CYAN}🚀 Installing pdw-gen / pwd-gen | Установка pwd-gen${CLR_RESET}"
-echo -e "${CLR_CYAN}====================================================${CLR_RESET}"
+echo -e "${CLR_CYAN}================================================================${CLR_RESET}"
+echo -e "${CLR_CYAN}🚀 Installing pdw-gen / pwd-gen | Установка pwd-gen (Linux/macOS)${CLR_RESET}"
+echo -e "${CLR_CYAN}================================================================${CLR_RESET}"
 
 BIN_DIR="$HOME/bin"
 mkdir -p "$BIN_DIR"
@@ -38,7 +38,7 @@ chmod +x "$BIN_DIR/pdw-gen"
 echo -e "${CLR_GREEN}[3/3]${CLR_RESET} Creating symlink pwd-gen... | Создание символической ссылки..."
 ln -sf "$BIN_DIR/pdw-gen" "$BIN_DIR/pwd-gen"
 
-echo -e "${CLR_CYAN}----------------------------------------------------${CLR_RESET}"
+echo -e "${CLR_CYAN}----------------------------------------------------------------${CLR_RESET}"
 
 # Verify if BIN_DIR is in user's PATH environment variable
 if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
@@ -54,4 +54,4 @@ else
     echo -e "You can now run '${CLR_BOLD}pwd-gen${CLR_RESET}' or '${CLR_BOLD}pdw-gen${CLR_RESET}' from any terminal window."
     echo -e "Вы можете запускать '${CLR_BOLD}pwd-gen${CLR_RESET}' или '${CLR_BOLD}pdw-gen${CLR_RESET}' из любого терминала."
 fi
-echo -e "${CLR_CYAN}====================================================${CLR_RESET}"
+echo -e "${CLR_CYAN}================================================================${CLR_RESET}"
