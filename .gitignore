@@ -1,0 +1,13 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Editors and IDEs
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
