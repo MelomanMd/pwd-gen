@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 pdw-gen / pwd-gen: Cryptographically secure password generator CLI tool with rich aesthetics.
-Developed for Linux systems.
+Developed for Linux and Windows systems.
 """
 
 import argparse
@@ -11,6 +11,16 @@ import shutil
 import string
 import subprocess
 import sys
+
+# Windows terminal styling support
+if sys.platform == "win32":
+    try:
+        import ctypes
+        kernel32 = ctypes.windll.kernel32
+        # Enable ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004
+        kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
+    except Exception:
+        pass
 
 # Color constants for terminal styling
 CLR_HEADER = "\033[1;36m"    # Bold Cyan
@@ -38,9 +48,17 @@ def get_strength_rating(entropy):
 
 def copy_to_clipboard(text):
     """
-    Copy generated text to the clipboard using system utilities (wl-copy, xclip, xsel).
+    Copy generated text to the clipboard using system utilities (clip for Windows, wl-copy/xclip/xsel for Linux).
     Returns True if successful, False otherwise.
     """
+    # Try Windows clip
+    if sys.platform == "win32":
+        try:
+            subprocess.run(["clip"], input=text.encode("utf-8"), check=True)
+            return True
+        except Exception:
+            pass
+
     # Try wl-copy (Wayland)
     if shutil.which("wl-copy"):
         try:
@@ -158,7 +176,7 @@ def generate_memorable_password(word_count, separator, wordlist):
 
 def main():
     parser = argparse.ArgumentParser(
-        description=f"{CLR_HEADER}🚀 pdw-gen / pwd-gen: Высокозащищенный генератор паролей для Linux{CLR_RESET}",
+        description=f"{CLR_HEADER}🚀 pdw-gen / pwd-gen: Высокозащищенный генератор паролей для Linux и Windows{CLR_RESET}",
         formatter_class=argparse.RawTextHelpFormatter
     )
 
@@ -182,7 +200,7 @@ def main():
     # Clipboard & Output options
     parser.add_argument("-C", "--clip", action="store_true", help="Скопировать сгенерированный пароль в буфер обмена")
     parser.add_argument("-H", "--hide", action="store_true", help="Скрыть вывод пароля в консоль (автоматически включает копирование в буфер)")
-    parser.add_argument("-v", "--version", action="version", version="pdw-gen v1.0.0")
+    parser.add_argument("-v", "--version", action="version", version="pwd-gen v1.0.0")
 
     args = parser.parse_args()
 
@@ -227,7 +245,7 @@ def main():
             if success:
                 clip_msg = f"{CLR_SUCCESS}✓ Скопировано в буфер обмена!{CLR_RESET}"
             else:
-                clip_msg = f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (утилиты xclip/wl-copy/xsel не найдены){CLR_RESET}"
+                clip_msg = f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (буфер обмена не найден или недоступен){CLR_RESET}"
 
         # Visual formatting
         rating_str, rating_color = get_strength_rating(entropy)
@@ -277,7 +295,7 @@ def main():
                             if success:
                                 print(f"{CLR_SUCCESS}✓ Скопировано в буфер обмена!{CLR_RESET}\n")
                             else:
-                                print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (утилиты xclip/wl-copy/xsel не найдены){CLR_RESET}\n")
+                                print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (буфер обмена не найден или недоступен){CLR_RESET}\n")
                     except (KeyboardInterrupt, EOFError):
                         print()
                 else:
@@ -289,7 +307,7 @@ def main():
                                 if success:
                                     print(f"{CLR_SUCCESS}✓ Все {len(passwords)} паролей скопированы в буфер обмена!{CLR_RESET}\n")
                                 else:
-                                    print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (утилиты xclip/wl-copy/xsel не найдены){CLR_RESET}\n")
+                                    print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (буфер обмена не найден или недоступен){CLR_RESET}\n")
                             elif user_input.isdigit():
                                 idx = int(user_input) - 1
                                 if 0 <= idx < len(passwords):
@@ -297,7 +315,7 @@ def main():
                                     if success:
                                         print(f"{CLR_SUCCESS}✓ Пароль #{idx+1} скопирован в буфер обмена!{CLR_RESET}\n")
                                     else:
-                                        print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (утилиты xclip/wl-copy/xsel не найдены){CLR_RESET}\n")
+                                        print(f"{CLR_DANGER}⚠ Ошибка: Не удалось скопировать (буфер обмена не найден или недоступен){CLR_RESET}\n")
                                 else:
                                     print(f"{CLR_DANGER}⚠ Неверный номер пароля.{CLR_RESET}\n")
                     except (KeyboardInterrupt, EOFError):

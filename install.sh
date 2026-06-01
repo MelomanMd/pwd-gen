@@ -22,12 +22,12 @@ BIN_DIR="$HOME/bin"
 mkdir -p "$BIN_DIR"
 
 # Determine installation source (local directory or remote download)
-if [ -f "pdw-gen" ]; then
+if [ -f "pdw_gen.py" ]; then
     echo -e "${CLR_GREEN}[1/3]${CLR_RESET} Copying script locally... | Копирование локального скрипта..."
-    cp pdw-gen "$BIN_DIR/pdw-gen"
+    cp pdw_gen.py "$BIN_DIR/pdw-gen"
 else
     echo -e "${CLR_GREEN}[1/3]${CLR_RESET} Downloading script from GitHub... | Скачивание скрипта с GitHub..."
-    curl -sSL "https://raw.githubusercontent.com/MelomanMd/pwd-gen/main/pdw-gen" -o "$BIN_DIR/pdw-gen"
+    curl -sSL "https://raw.githubusercontent.com/MelomanMd/pwd-gen/main/pdw_gen.py" -o "$BIN_DIR/pdw-gen"
 fi
 
 # Set executable permissions

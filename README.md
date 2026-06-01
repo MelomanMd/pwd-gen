@@ -1,11 +1,11 @@
 # 🔑 pwd-gen (pdw-gen)
 
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-[![Platform](https://img.shields.io/badge/platform-linux-lightgrey.svg)](https://www.linux.org/)
+[![Platform](https://img.shields.io/badge/platform-linux%20%7C%20windows-lightgrey.svg)](https://www.linux.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![CLI](https://img.shields.io/badge/interface-CLI-orange.svg)]()
 
-A cryptographically secure, fully customizable, and beautifully styled CLI password generator designed for Linux terminal power-users. Features automated clipboard integration, password entropy analysis, and memorable word-based password generation (xkcd-style). Supports `pwd-gen` and the typo-friendly `pdw-gen` commands.
+A cryptographically secure, fully customizable, and beautifully styled CLI password generator designed for **Linux** and **Windows** power-users. Features automated clipboard integration, password entropy analysis, and memorable word-based password generation (xkcd-style). Supports `pwd-gen` and the typo-friendly `pdw-gen` commands.
 
 *Читать на русском ниже (Russian version below).*
 
@@ -13,12 +13,13 @@ A cryptographically secure, fully customizable, and beautifully styled CLI passw
 
 ## ⚡ Features | Возможности
 
+- **Cross-Platform**: Full native support for both **Linux** (Bash/Zsh) and **Windows** (CMD/PowerShell/Windows Terminal).
 - **Cryptographically Secure**: Built on top of Python's `secrets` module, using hardware-based security for maximum random strength.
 - **Bilingual & Typo-Friendly**: Installs both `pwd-gen` and `pdw-gen` commands.
-- **Rich Terminal Styling**: Beautiful, high-contrast bold green password display, colored entropy scales, and clean alignments.
+- **Rich Terminal Styling**: Beautiful, high-contrast bold green password display, colored entropy scales, and clean alignments. Activates colored ANSI support in Windows natively via `ctypes`.
 - **Strength Assessment**: Precise information entropy calculation in bits with instant rating classification (Weak, Medium, Strong, Very Strong).
-- **Interactive "Enter to Copy"**: Interactive prompt makes copying to the clipboard as simple as hitting `Enter` inside your terminal!
-- **Word-Based Passwords**: Built-in xkcd-style memorable password generator using local system dictionaries (`/usr/share/dict/words`).
+- **Interactive "Enter to Copy"**: Interactive prompt makes copying to the clipboard as simple as hitting `Enter` inside your terminal! Uses Windows' native `clip` utility or Linux clipboard tools.
+- **Word-Based Passwords**: Built-in xkcd-style memorable password generator using local system dictionaries (Linux) and high-quality robust fallback wordlists.
 - **Pipeline Safe**: Automatically detects when output is piped or redirected, disabling interactive prompts to prevent script hangs.
 
 ---
@@ -42,48 +43,39 @@ A cryptographically secure, fully customizable, and beautifully styled CLI passw
 
 ---
 
-## 🛠️ Quick Installation | Быстрая установка
+## 🛠️ Installation | Установка
 
-Install instantly from GitHub in one command:
+You can now install `pwd-gen` natively on **both Windows and Linux** using Python's package manager `pip`!
+
+### 1. Standard Python Installation (Windows & Linux - Recommended)
+Run this command from any terminal:
+```bash
+pip install git+https://github.com/MelomanMd/pwd-gen.git
+```
+*This will automatically compile the command for your OS, making `pwd-gen` and `pdw-gen` available globally as system commands.*
+
+### 2. Linux Automated Shell Installation
+Install instantly using our curl shell script:
 ```bash
 curl -sSL https://raw.githubusercontent.com/MelomanMd/pwd-gen/main/install.sh | bash
 ```
 
-### Manual Installation | Ручная установка
+### 3. Manual Installation (Linux)
 ```bash
-# Clone the repository
 git clone https://github.com/MelomanMd/pwd-gen.git
 cd pwd-gen
-
-# Run the installation script
 ./install.sh
 ```
-
-> [!NOTE]
-> The installation script places the command under `~/bin`. Ensure `~/bin` is included in your `$PATH` environment variable. If not, add `export PATH="$HOME/bin:$PATH"` to your `~/.bashrc` or `~/.zshrc`.
 
 ---
 
 ## 📋 Clipboard Dependencies | Работа с буфером обмена
 
-To support clipboard copy functions (`-C`/`--clip` and interactive copying), you need a system clipboard utility installed on your Linux machine.
-
-* **Ubuntu / Debian / Linux Mint / Pop!_OS:**
-  ```bash
-  sudo apt update
-  sudo apt install -y xclip          # For X11 (Most common)
-  sudo apt install -y wl-clipboard   # For Wayland systems
-  ```
-* **Fedora / RedHat:**
-  ```bash
-  sudo dnf install -y xclip          # For X11
-  sudo dnf install -y wl-clipboard   # For Wayland
-  ```
-* **Arch Linux / Manjaro:**
-  ```bash
-  sudo pacman -S xclip               # For X11
-  sudo pacman -S wl-clipboard        # For Wayland
-  ```
+* **Windows**: Works out-of-the-box using the built-in system `clip` utility. No external tools needed!
+* **Linux (Wayland / X11)**: Requires a clipboard tool. Install one depending on your distribution:
+  * **Ubuntu / Debian / Mint**: `sudo apt install xclip` (X11) or `sudo apt install wl-clipboard` (Wayland)
+  * **Fedora / RedHat**: `sudo dnf install xclip` (X11) or `sudo dnf install wl-clipboard` (Wayland)
+  * **Arch Linux / Manjaro**: `sudo pacman -S xclip` (X11) or `sudo pacman -S wl-clipboard` (Wayland)
 
 ---
 
@@ -113,20 +105,19 @@ pwd-gen [options]
 
 # 🇷🇺 Версия на русском языке
 
-Криптографически стойкий, настраиваемый генератор паролей для Linux-терминала. Обладает приятным внешним видом, расчетом энтропии сложности паролей и автоматической интеграцией с буфером обмена. Поддерживает запуск командами `pwd-gen` и `pdw-gen`.
+Кроссплатформенный (Linux и Windows) генератор паролей для терминала. Обладает превосходным внешним видом, нативным расчетом энтропии сложности паролей и встроенной интеграцией с буфером обмена Windows (`clip`) и Linux.
 
-## 🛠️ Установка в одно действие
+## 🛠️ Установка
 
-Запустите следующую команду в терминале для автоматической установки:
+### 1. Через Python Pip (Рекомендуется для Linux и Windows)
+```bash
+pip install git+https://github.com/MelomanMd/pwd-gen.git
+```
+*Эта команда автоматически настроит исполняемые файлы `pwd-gen` и `pdw-gen` в вашей системе.*
+
+### 2. Скрипт быстрой установки для Linux
 ```bash
 curl -sSL https://raw.githubusercontent.com/MelomanMd/pwd-gen/main/install.sh | bash
-```
-
-### Ручная установка
-```bash
-git clone https://github.com/MelomanMd/pwd-gen.git
-cd pwd-gen
-./install.sh
 ```
 
 ## 💡 Примеры использования

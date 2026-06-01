@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pwd-gen"
+version = "1.0.0"
+description = "Cryptographically secure, beautiful CLI password generator for Linux and Windows"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "MelomanMd"}
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Security",
+]
+
+[project.scripts]
+pwd-gen = "pdw_gen:main"
+pdw-gen = "pdw_gen:main"
